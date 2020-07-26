@@ -9,8 +9,8 @@
  * "AS IS" BASIS, WITHOUT ARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-#include "megray/nccl/utils.h"
-#include "megray/cuda/cuda_context.h"
+#include "megray/rccl/utils.h"
+#include "megray/hip/hip_context.h"
 
 namespace MegRay {
 

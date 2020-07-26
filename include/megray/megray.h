@@ -11,5 +11,15 @@
 
 #pragma once
 
-#include "server.h"
-#include "communicator.h"
+#include "megray/core/server.h"
+#include "megray/core/communicator.h"
+
+namespace MegRay{
+
+/*!
+ * get a communicator implemented with nccl or ucx
+ * return std::shared_ptr<NcclCommunicator> or std::shared_ptr<UcxCommunicator>
+ */
+std::shared_ptr<Communicator> get_communicator(uint32_t nranks, uint32_t rank, Backend backend);
+
+}

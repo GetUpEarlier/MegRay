@@ -1,5 +1,5 @@
 /**
- * \file src/ucx/utils.h
+ * \file src/debug.cpp
  * MegRay is Licensed under the Apache License, Version 2.0 (the "License")
  *
  * Copyright (c) 2014-2020 Megvii Inc. All rights reserved.
@@ -9,18 +9,19 @@
  * "AS IS" BASIS, WITHOUT ARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-#pragma once
+#include "megray/core/debug.h"
 
-#include <cstdint>
+#include <cstdarg>
 
 namespace MegRay {
 
-inline uint32_t ring_add(uint32_t n, uint32_t delta, uint32_t m) {
-    return (n + delta) % m;
-}
-
-inline uint32_t ring_sub(uint32_t n, uint32_t delta, uint32_t m) {
-    return (n + m - delta % m) % m;
+void MEGRAY_LOG(const char* level, const char* file, int line, const char* fmt, ...) {
+    va_list ap;
+    va_start(ap, fmt);
+    fprintf(stderr, "[%s]\t%s:%d, ", level, file, line);
+    vfprintf(stderr, fmt, ap);
+    fprintf(stderr, "\n");
+    va_end(ap);
 }
 
 } // namespace MegRay

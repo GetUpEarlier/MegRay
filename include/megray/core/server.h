@@ -1,5 +1,5 @@
 /**
- * \file src/debug.cpp
+ * \file src/server.h
  * MegRay is Licensed under the Apache License, Version 2.0 (the "License")
  *
  * Copyright (c) 2014-2020 Megvii Inc. All rights reserved.
@@ -9,19 +9,19 @@
  * "AS IS" BASIS, WITHOUT ARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-#include "debug.h"
+#pragma once
 
-#include <cstdarg>
+#include <mutex>
+
+#include "megray/core/common.h"
 
 namespace MegRay {
 
-void MEGRAY_LOG(const char* level, const char* file, int line, const char* fmt, ...) {
-    va_list ap;
-    va_start(ap, fmt);
-    fprintf(stderr, "[%s]\t%s:%d, ", level, file, line);
-    vfprintf(stderr, fmt, ap);
-    fprintf(stderr, "\n");
-    va_end(ap);
-}
+char* get_host_ip();
+
+int get_free_port();
+
+// create megray server
+Status create_server(uint32_t nranks, int port);
 
 } // namespace MegRay

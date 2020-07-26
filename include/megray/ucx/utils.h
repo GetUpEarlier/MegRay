@@ -1,5 +1,5 @@
 /**
- * \file src/server.h
+ * \file src/ucx/utils.h
  * MegRay is Licensed under the Apache License, Version 2.0 (the "License")
  *
  * Copyright (c) 2014-2020 Megvii Inc. All rights reserved.
@@ -11,17 +11,21 @@
 
 #pragma once
 
-#include <mutex>
+#include <cstdint>
+#include "cuda_runtime.h"
 
-#include "common.h"
+#include "megray/core/common.h"
 
 namespace MegRay {
 
-char* get_host_ip();
+void reduce(void* i0, void* i1, void* o, size_t len, DType dtype, ReduceOp op, cudaStream_t stream);
 
-int get_free_port();
+inline uint32_t ring_add(uint32_t n, uint32_t delta, uint32_t m) {
+    return (n + delta) % m;
+}
 
-// create megray server
-Status create_server(uint32_t nranks, int port);
+inline uint32_t ring_sub(uint32_t n, uint32_t delta, uint32_t m) {
+    return (n + m - delta % m) % m;
+}
 
 } // namespace MegRay

@@ -15,21 +15,21 @@
 
 #include "nccl.h"
 
-#include "../common.h"
+#include "megray/core/common.h"
 
 namespace MegRay {
 
-#define NCCL_CHECK(expr)                                   \
+#define RCCL_CHECK(expr)                                   \
     do {                                                   \
         ncclResult_t result = (expr);                      \
         if (result != ncclSuccess) {                       \
             MEGRAY_ERROR("nccl error [%d]: %s", result,    \
                 ncclGetErrorString(result));               \
-            return MEGRAY_NCCL_ERR;                        \
+            return MEGRAY_RCCL_ERR;                        \
         }                                                  \
     } while (0);
 
-#define NCCL_ASSERT(expr)                                  \
+#define RCCL_ASSERT(expr)                                  \
     do {                                                   \
         ncclResult_t result = (expr);                      \
         if (result != ncclSuccess) {                       \

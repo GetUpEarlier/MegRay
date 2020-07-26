@@ -9,9 +9,13 @@
  * "AS IS" BASIS, WITHOUT ARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-#include "communicator.h"
+#include "megray/ucx/communicator.h"
 
 #include <cstring>
+
+#include "megray/ucx/utils.h"
+
+#include "megray/cuda/cuda_context.h"
 
 namespace MegRay {
 
@@ -116,7 +120,7 @@ Status UcxCommunicator::send(const void* sendbuff, size_t len, uint32_t rank,
         std::shared_ptr<Context> ctx) {
     // cuda stream synchronize
     MEGRAY_ASSERT(ctx->type() == MEGRAY_CTX_CUDA, "only cuda context supported");
-    cudaStream_t stream = static_cast<CudaContext*>(ctx.get())->get_stream();
+    cudaStream_t stream = static_cast<CudaContext*>(ctx.get())->stream();
     CUDA_CHECK(cudaStreamSynchronize(stream));
     // perform send recv
     char sync;
@@ -130,7 +134,7 @@ Status UcxCommunicator::recv(void* recvbuff, size_t len, uint32_t rank,
         std::shared_ptr<Context> ctx) {
     // cuda stream synchronize
     MEGRAY_ASSERT(ctx->type() == MEGRAY_CTX_CUDA, "only cuda context supported");
-    cudaStream_t stream = static_cast<CudaContext*>(ctx.get())->get_stream();
+    cudaStream_t stream = static_cast<CudaContext*>(ctx.get())->stream();
     CUDA_CHECK(cudaStreamSynchronize(stream));
     // perform send recv
     char sync;
